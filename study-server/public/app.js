@@ -43,6 +43,133 @@ const typeLabel = {
   cut: "Bảng quy hoạch động"
 };
 
+const ideaSteps = {
+  recurrence: [
+    "B1. Xác định kích thước đầu vào n và điều kiện dừng của hàm đệ quy.",
+    "B2. Đếm số lời gọi đệ quy sinh ra từ một lời gọi: a.",
+    "B3. Xác định kích thước mỗi bài toán con: n / b.",
+    "B4. Xác định chi phí ngoài lời gọi đệ quy: f(n).",
+    "B5. Lập biểu thức truy hồi: T(n) = aT(n / b) + f(n).",
+    "B6. Dùng cây truy hồi hoặc Master để suy ra bậc O(...)."
+  ],
+  zero: [
+    "B1. Nhập n.",
+    "B2. Khai báo stack S và set out.",
+    "B3. Đưa n vào S và đưa n vào out.",
+    "B4. Lấy u khỏi S.",
+    "B4.1. Duyệt các cặp ước (a, b) của u; sinh v = (a - 1) * (b + 1).",
+    "B4.2. Nếu v chưa có trong out thì đưa v vào S và thêm v vào out.",
+    "B5. Lặp lại B4 tới khi stack S rỗng.",
+    "B6. Duyệt xuất các phần tử trong out ra."
+  ],
+  water: [
+    "B1. Nhập dung tích hai bình n, m và lượng cần đong k.",
+    "B2. Trạng thái là cặp (x, y): lượng nước đang có trong bình 1 và bình 2.",
+    "B3. Khởi tạo queue Q với trạng thái (0, 0), đánh dấu visited.",
+    "B4. Lấy một trạng thái (x, y) khỏi Q.",
+    "B5. Sinh các trạng thái kế tiếp: đổ đầy, đổ hết, rót bình 1 sang bình 2, rót bình 2 sang bình 1.",
+    "B6. Nếu trạng thái mới chưa visited thì đưa vào Q và lưu cha/thao tác.",
+    "B7. Dừng khi có x = k hoặc y = k; truy vết đường đi từ cha."
+  ],
+  split: [
+    "B1. Nhập dãy giá trị các món a[0..n-1], tính tổng T.",
+    "B2. Mục tiêu chọn nhóm A có tổng không vượt T / 2 và càng lớn càng tốt.",
+    "B3. Gọi TRY(i, sum): xét món thứ i, tổng hiện tại của nhóm A là sum.",
+    "B4. Nhánh 1: không lấy a[i], gọi TRY(i + 1, sum).",
+    "B5. Nhánh 2: nếu sum + a[i] <= T / 2 thì lấy a[i], gọi TRY(i + 1, sum + a[i]).",
+    "B6. Khi i = n, cập nhật kết quả tốt nhất theo sum lớn nhất.",
+    "B7. Đáp án chênh lệch nhỏ nhất là T - 2 * best."
+  ],
+  coinBacktrack: [
+    "B1. Nhập các mệnh giá coin[0..n-1] và số tiền cần đổi S.",
+    "B2. Sắp xếp hoặc xét các mệnh giá theo thứ tự cố định.",
+    "B3. Gọi TRY(i, remain, used): xét mệnh giá i, còn phải đổi remain, đã dùng used tờ.",
+    "B4. Thử số tờ k của coin[i] từ 0 tới remain / coin[i].",
+    "B5. Với mỗi k, gọi TRY(i + 1, remain - k * coin[i], used + k).",
+    "B6. Nếu remain = 0 thì cập nhật số tờ ít nhất.",
+    "B7. Cắt nhánh khi used đã không tốt hơn đáp án hiện tại."
+  ],
+  schedule: [
+    "B1. Nhập danh sách công việc, mỗi công việc có thời điểm bắt đầu và kết thúc.",
+    "B2. Sắp xếp công việc tăng dần theo thời điểm kết thúc.",
+    "B3. Chọn công việc đầu tiên sau khi sắp xếp.",
+    "B4. Duyệt các công việc tiếp theo.",
+    "B5. Nếu start của công việc hiện tại >= end của công việc đã chọn gần nhất thì chọn công việc đó.",
+    "B6. Cập nhật end gần nhất và tiếp tục duyệt.",
+    "B7. Kết quả là tập công việc không giao nhau có số lượng lớn."
+  ],
+  priority: [
+    "B1. Nhập dãy phần tử và kiểu hàng đợi ưu tiên: max-heap hoặc min-heap.",
+    "B2. Khai báo priority_queue phù hợp.",
+    "B3. Lần lượt đưa từng phần tử vào heap.",
+    "B4. Sau mỗi lần thêm, phần tử ưu tiên nhất nằm ở top.",
+    "B5. Khi cần lấy phần tử ưu tiên, đọc top rồi pop.",
+    "B6. Lặp đến khi heap rỗng hoặc đủ số phần tử cần lấy."
+  ],
+  detective: [
+    "B1. Nhập dãy a[0..n-1] và kích thước cửa sổ k.",
+    "B2. Dùng deque lưu chỉ số các phần tử có khả năng là lớn nhất/nhỏ nhất của cửa sổ.",
+    "B3. Khi xét i, loại khỏi đầu deque các chỉ số đã ra khỏi cửa sổ.",
+    "B4. Loại khỏi cuối deque các phần tử kém ưu tiên hơn a[i].",
+    "B5. Đưa i vào cuối deque.",
+    "B6. Khi i >= k - 1, phần tử ở đầu deque là đáp án của cửa sổ hiện tại.",
+    "B7. Trượt cửa sổ sang phải và lặp lại."
+  ],
+  median: [
+    "B1. Nhập lần lượt các phần tử của dãy.",
+    "B2. Dùng max-heap L giữ nửa nhỏ và min-heap R giữ nửa lớn.",
+    "B3. Với mỗi x, nếu x <= top(L) thì đưa vào L, ngược lại đưa vào R.",
+    "B4. Cân bằng hai heap để số phần tử lệch nhau không quá 1.",
+    "B5. Nếu cần trung vị dưới thì lấy top(L) khi L giữ nhiều phần tử hơn hoặc bằng R.",
+    "B6. Sau mỗi lần thêm, ghi lại trạng thái hai heap và trung vị."
+  ],
+  delivery: [
+    "B1. Nhập các đơn hàng, mỗi đơn có deadline và lợi nhuận.",
+    "B2. Sắp xếp đơn hàng giảm dần theo lợi nhuận.",
+    "B3. Tạo các slot thời gian còn trống từ 1 đến deadline lớn nhất.",
+    "B4. Duyệt từng đơn theo thứ tự lợi nhuận.",
+    "B5. Với mỗi đơn, tìm slot trống muộn nhất không vượt deadline.",
+    "B6. Nếu tìm được slot thì xếp đơn vào slot đó và cộng lợi nhuận.",
+    "B7. Kết quả là lịch giao hàng có tổng lợi nhuận lớn."
+  ],
+  coinDp: [
+    "B1. Nhập các mệnh giá coin[1..n] và số tiền S.",
+    "B2. Định nghĩa C[i][j] là số tờ ít nhất để đổi số tiền j bằng i loại tiền đầu.",
+    "B3. Khởi tạo C[0][0] = 0, C[0][j] = vô cùng với j > 0.",
+    "B4. Với từng i từ 1 đến n và j từ 0 đến S, xét không lấy coin[i]: C[i-1][j].",
+    "B5. Nếu j >= coin[i], xét lấy thêm coin[i]: C[i][j - coin[i]] + 1.",
+    "B6. Công thức: C[i][j] = min(C[i-1][j], C[i][j - coin[i]] + 1).",
+    "B7. Đáp án là C[n][S]."
+  ],
+  lcs: [
+    "B1. Nhập hai xâu X độ dài m và Y độ dài n.",
+    "B2. Định nghĩa C[i][j] là độ dài xâu con chung dài nhất của X[1..i] và Y[1..j].",
+    "B3. Khởi tạo C[0][j] = 0 và C[i][0] = 0.",
+    "B4. Nếu X[i] = Y[j] thì C[i][j] = C[i-1][j-1] + 1.",
+    "B5. Nếu X[i] != Y[j] thì C[i][j] = max(C[i-1][j], C[i][j-1]).",
+    "B6. Điền bảng theo thứ tự từ trên xuống dưới, trái sang phải.",
+    "B7. Đáp án là C[m][n]; có thể truy vết để lấy xâu."
+  ],
+  knapsack: [
+    "B1. Nhập sức chứa W và danh sách vật có trọng lượng w[i], giá trị v[i].",
+    "B2. Định nghĩa C[i][j] là giá trị lớn nhất khi xét i vật đầu với sức chứa j.",
+    "B3. Khởi tạo C[0][j] = 0 và C[i][0] = 0.",
+    "B4. Nếu w[i] > j thì C[i][j] = C[i-1][j].",
+    "B5. Nếu w[i] <= j thì xét lấy vật i: C[i-1][j-w[i]] + v[i].",
+    "B6. Công thức: C[i][j] = max(C[i-1][j], C[i-1][j-w[i]] + v[i]).",
+    "B7. Đáp án là C[n][W]."
+  ],
+  square: [
+    "B1. Nhập kích thước hình chữ nhật n x m.",
+    "B2. Định nghĩa C[i][j] là số hình vuông ít nhất để cắt hình chữ nhật i x j.",
+    "B3. Nếu i = j thì C[i][j] = 1.",
+    "B4. Nếu i != j, thử mọi đường cắt ngang k: C[k][j] + C[i-k][j].",
+    "B5. Thử mọi đường cắt dọc k: C[i][k] + C[i][j-k].",
+    "B6. Lấy giá trị nhỏ nhất trong các cách cắt.",
+    "B7. Đáp án là C[n][m]."
+  ]
+};
+
 async function boot() {
   [topics, knowledge] = await Promise.all([
     fetch("/api/topics").then(r => r.json()),
@@ -82,7 +209,7 @@ async function renderTopic() {
   groupEl.textContent = current.group;
   visualType.textContent = typeLabel[current.visual] || current.visual;
   const source = knowledge?.topics?.[current.id];
-  const items = cleanKnowledgeBullets(source?.bullets);
+  const items = cleanKnowledgeBullets(source?.bullets, current.id);
   ideaBox.innerHTML = `
     <li class="source-line">Nguồn: ${escapeHtml(knowledge?.sourceFile || "đề cương mới nhất")}</li>
     ${items.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
@@ -96,17 +223,19 @@ async function renderTopic() {
   await solve();
 }
 
-function cleanKnowledgeBullets(bullets = []) {
-  const fallback = ["Nêu trạng thái hoặc công thức.", "Mô tả các bước chạy theo đúng loại thuật toán.", "Kết luận độ phức tạp và lưu ý lỗi dễ sai."];
-  const blocked = ["Code C/C++ mẫu", "Độ phức tạp", "#include", "using namespace", "int main", "return 0", "cin", "cout", "while(", "for(", "if(", ";", "{", "}"];
-  const headingPattern = /^(\d+\.\s*)?(Ý tưởng|Minh họa|Công thức|Độ phức tạp|Code|[A-Z]\.|B\.\d+|C\.|D\.|E\.|F\.|G\.|H\.)/i;
+function cleanKnowledgeBullets(bullets = [], topicId = "") {
+  if (ideaSteps[topicId]) return ideaSteps[topicId];
+  const fallback = ["Nêu trạng thái hoặc công thức.", "Mô tả các bước chạy theo đúng loại thuật toán.", "Minh hoạ nằm ở khung giữa; code C/C++ nằm ở khung phải."];
+  const blocked = ["Code C/C++ mẫu", "Code C/C++", "Độ phức tạp", "phức tạp", "O(", "#include", "using namespace", "int main", "return 0", "cin", "cout", "while(", "for(", "if(", ";", "{", "}"];
+  const headingPattern = /^(\d+\.\s*)?(Ý tưởng|Minh họa|Minh hoạ|Công thức|Độ phức tạp|Code|[A-Z]\.|B\.\d+|C\.|D\.|E\.|F\.|G\.|H\.)/i;
   const cleaned = (bullets || [])
     .map(x => String(x || "").trim())
     .filter(Boolean)
     .filter(x => !blocked.some(token => x.includes(token)))
+    .filter(x => !/^\s*4\.\s*/.test(x))
     .filter(x => !headingPattern.test(x))
     .filter(x => !/^\d+\.\s+\S/.test(x))
-    .slice(0, 7);
+    .slice(0, 6);
   return cleaned.length ? cleaned : fallback;
 }
 
