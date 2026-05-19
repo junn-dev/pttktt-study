@@ -425,7 +425,7 @@ tr.active-row td {
   border-radius: 18px;
   background: #ffffff;
   padding: 18px;
-  overflow-x: auto;
+  overflow: auto;
 }
 .exam-visual {
   border: 1px solid var(--line);
@@ -524,19 +524,23 @@ tr.active-row td {
   font-size: 15px;
   font-weight: 950;
 }
-.tree-canvas { min-width: 760px; padding: 4px 4px 12px; }
+.tree-canvas {
+  min-width: 0;
+  width: 100%;
+  padding: 4px 4px 12px;
+}
 .tree-node-wrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
   position: relative;
   padding: 4px 0;
 }
 .tree-node {
   flex: 0 0 auto;
-  min-width: 126px;
-  max-width: 178px;
+  min-width: 104px;
+  max-width: 150px;
   border: 2px solid var(--line-2);
   border-radius: 14px;
   background: #fff;
@@ -561,30 +565,32 @@ tr.active-row td {
 .node.skip { background: #f1f5f9; color: var(--muted); }
 .tree-children {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
-  gap: 10px;
+  gap: 14px;
   position: relative;
-  padding-left: 18px;
+  width: 100%;
+  padding: 16px 0 0;
 }
 .tree-children::before {
   content: "";
   position: absolute;
-  top: 18px;
-  bottom: 18px;
-  left: 0;
+  top: 0;
+  left: 50%;
+  height: 16px;
   border-left: 2px solid #cbd5e1;
 }
 .tree-children > .tree-node-wrap::before {
   content: "";
   position: absolute;
-  left: -18px;
-  top: 50%;
-  width: 18px;
-  border-top: 2px solid #cbd5e1;
+  top: -16px;
+  left: 50%;
+  height: 16px;
+  border-left: 2px solid #cbd5e1;
 }
-.branch-canvas { display: grid; gap: 16px; min-width: 620px; }
+.branch-canvas { display: grid; gap: 16px; min-width: 0; }
 .branch-row {
   display: grid;
   grid-template-columns: 76px minmax(0, 1fr);
