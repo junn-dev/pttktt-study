@@ -21,6 +21,7 @@ const showAll = document.getElementById("showAll");
 const codePath = document.getElementById("codePath");
 const codeEditor = document.getElementById("codeEditor");
 const printPage = document.getElementById("printPage");
+const toggleSidebar = document.getElementById("toggleSidebar");
 let currentCode = "";
 let currentCodeLine = 1;
 
@@ -67,6 +68,7 @@ function renderNav() {
     btn.onclick = async () => {
       current = topics.find(t => t.id === btn.dataset.id);
       history.replaceState(null, "", `#${encodeURIComponent(current.id)}`);
+      document.body.classList.remove("nav-open");
       renderNav();
       await renderTopic();
     };
@@ -111,6 +113,7 @@ function cleanKnowledgeBullets(bullets = []) {
 form.onsubmit = e => { e.preventDefault(); solve(); };
 search.oninput = renderNav;
 if (printPage) printPage.onclick = () => window.print();
+if (toggleSidebar) toggleSidebar.onclick = () => document.body.classList.toggle("nav-open");
 window.addEventListener("hashchange", async () => {
   const id = decodeURIComponent(location.hash.replace(/^#/, ""));
   const next = topics.find(t => t.id === id);
@@ -329,8 +332,50 @@ function dpTable(table = [], step = 99, rowLabels = null, colLabels = null) {
 
 function renderCodeViewer() {
   const lines = currentCode.split(/\r?\n/);
-  codeEditor.innerHTML = `<div class="code-lines">${lines.map((line, i) => `<div class="code-line" data-line="${i + 1}"><span class="line-no">${i + 1}</span><code>${escapeHtml(line || " ")}</code></div>`).join("")}</div>`;
+  codeEditor.innerHTML = `<div class="code-lines">${lines.map((line, i) => `<div class="code-line" data-line="${i + 1}"><span class="line-no">${i + 1}</span><code>${highlightCodeLine(line || " ")}</code></div>`).join("")}</div>`;
   updateCodeHighlight();
+}
+
+function highlightCodeLine(line) {
+  const keywords = new Set("asm auto break case catch class const constexpr continue default delete do else enum explicit export extern for friend goto if inline mutable namespace new operator private protected public register return sizeof static struct switch template this throw try typedef typename union using virtual volatile while".split(" "));
+  const types = new Set("bool char double float int long short signed unsigned void wchar_t size_t string vector pair map set stack queue priority_queue".split(" "));
+  let out = "";
+  let i = 0;
+  const push = (cls, text) => { out += `<span class="${cls}">${escapeHtml(text)}</span>`; };
+
+  while (i < line.length) {
+    const rest = line.slice(i);
+    if (rest.startsWith("//")) { push("tok-comment", rest); break; }
+    if (rest.startsWith("#") && line.slice(0, i).trim() === "") { push("tok-pre", rest); break; }
+    if (line[i] === '"' || line[i] === "'") {
+      const quote = line[i];
+      let j = i + 1;
+      while (j < line.length) {
+        if (line[j] === "\\" && j + 1 < line.length) j += 2;
+        else if (line[j] === quote) { j++; break; }
+        else j++;
+      }
+      push("tok-string", line.slice(i, j));
+      i = j;
+      continue;
+    }
+    const num = rest.match(/^\b\d+(\.\d+)?\b/);
+    if (num) { push("tok-number", num[0]); i += num[0].length; continue; }
+    const word = rest.match(/^[A-Za-z_][A-Za-z0-9_]*/);
+    if (word) {
+      const value = word[0];
+      if (keywords.has(value)) push("tok-keyword", value);
+      else if (types.has(value)) push("tok-type", value);
+      else push("tok-ident", value);
+      i += value.length;
+      continue;
+    }
+    const op = rest.match(/^(==|!=|<=|>=|\+\+|--|&&|\|\||->|::|[+\-*/%=<>!&|^~?:;,.[\]{}()])/);
+    if (op) { push("tok-op", op[0]); i += op[0].length; continue; }
+    out += escapeHtml(line[i]);
+    i++;
+  }
+  return out;
 }
 
 function updateCodeHighlight() {
