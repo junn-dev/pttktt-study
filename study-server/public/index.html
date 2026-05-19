@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PTTKTT - Học theo đề cương</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <strong>PTTKTT</strong>
+        <span>Ôn tập theo đề cương mới nhất</span>
+      </div>
+      <input id="search" class="search" placeholder="Tìm thuật toán...">
+      <nav id="nav" class="nav"></nav>
+    </aside>
+
+    <main class="workspace">
+      <header class="top panel">
+        <div class="title-block">
+          <p id="group" class="eyebrow">Đề cương</p>
+          <h1 id="title">Đang tải...</h1>
+        </div>
+        <div class="top-actions">
+          <span id="visualType" class="type">Minh họa</span>
+          <button id="printPage" class="print-btn" type="button">In trang này</button>
+        </div>
+      </header>
+
+      <section class="panel input-panel">
+        <div class="input-copy">
+          <h2>Dữ liệu thử</h2>
+        </div>
+        <form id="inputForm" class="inputs"></form>
+      </section>
+
+      <section class="learn-layout">
+        <article class="panel idea-panel">
+          <h2>1. Ý tưởng</h2>
+          <ul id="ideaBox" class="idea-list"></ul>
+        </article>
+
+        <article class="panel visual-panel">
+          <div class="panel-head">
+            <h2>2. Minh họa</h2>
+            <div class="stepper">
+              <button id="prevStep" type="button">Bước trước</button>
+              <span id="stepInfo">Bước 0/0</span>
+              <button id="nextStep" type="button">Bước sau</button>
+              <button id="showAll" type="button">Hiện tất cả</button>
+            </div>
+          </div>
+          <div id="summary" class="summary">Bấm tính minh họa để xem từng bước.</div>
+          <div class="legend">
+            <span><i class="ok"></i>Chọn/hợp lệ</span>
+            <span><i class="try"></i>Nhánh thử</span>
+            <span><i class="cut"></i>Loại/cắt</span>
+            <span><i class="active"></i>Đang xét</span>
+          </div>
+          <div id="visual" class="visual"></div>
+        </article>
+
+        <section class="panel code-panel">
+          <details open>
+            <summary>3. Code C/C++ mẫu <span id="codePath"></span></summary>
+            <div id="codeEditor" class="code-editor" aria-label="Code C/C++ mau"></div>
+          </details>
+        </section>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

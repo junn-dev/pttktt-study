@@ -1,0 +1,7 @@
+*.png
+*.docx
+*.py
+study-ui/
+node_modules/
+.env
+.DS_Store

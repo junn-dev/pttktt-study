@@ -1,0 +1,13 @@
+{
+  "name": "pttktt-study",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PTTKTT study visualizer",
+  "main": "study-server/server.js",
+  "scripts": {
+    "start": "node study-server/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
